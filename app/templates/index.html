@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Did I Remember?</title>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <style>
+            #itemInput {
+                border-style:none;
+            }
+            .btn-default {
+                border-style:none;
+            }
+            .list-group-item {
+                margin-top:16px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container" style="margin-top:32px">
+            <div class="row">
+                <form class="form-inline text-center">
+                    <label for="itemInput">Did I Remember </label>
+                    <input type="text" class="form-control" id="itemInput">
+                    <button class="btn btn-default" id="addItemButton">?</button>
+                </form>
+            </div>
+            <div class="row">
+                <div class="list-group text-center" id="items"></div>
+            </div>
+        </div>
+        <script src="/static/app.js"></script>
+    </body>
+</html>
