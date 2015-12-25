@@ -27,7 +27,17 @@
                 </form>
             </div>
             <div class="row">
-                <div class="list-group text-center" id="items"></div>
+                <div class="list-group text-center" id="items">
+                    {% for item in session["items"] %}
+                        <div class="list-group-item">
+                            <span class="item">{{ item }}</span>
+                            <input type="checkbox">
+                            <button class="btn btn-default btn-delete">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
         <script src="/static/app.js"></script>
