@@ -3,8 +3,7 @@ from app.database import Base
 
 class Item(Base):
     __tablename__ = 'items'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(64))
+    name = Column(String(64), primary_key=True)
     occurrences = Column(Integer)
 
     def __init__(self, name):
@@ -16,13 +15,14 @@ class Item(Base):
 
 class ItemConnection(Base):
     __tablename__ = 'itemconnections'
-    id1 = Column(Integer, primary_key=True)
-    id2 = Column(Integer)
+    item1 = Column(String(64), primary_key=True)
+    item2 = Column(String(64))
     occurrences = Column(Integer)
 
     def __init__(self, id1, id2):
-        self.id1 = id1
-        self.id2 = id2
+        self.item1 = item1
+        self.item2 = item2
+        self.occurrences = 1
 
     def __repr__(self):
-        return '<ItemConnection '+str(self.id1)+' '+str(self.id2)+' '+str(self.occurrences)+'>'
+        return '<ItemConnection '+str(self.item1)+' '+str(self.item2)+' '+str(self.occurrences)+'>'

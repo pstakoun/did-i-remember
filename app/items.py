@@ -6,6 +6,10 @@ from flask import session
 from app.database import db_session
 from app.models import Item, ItemConnection
 
+def addConnections(item, items):
+    for i in session['items']:
+        pass
+
 def add(s):
     s1 = stripSpecial(s.upper())
     if 'items' not in session:
@@ -13,13 +17,14 @@ def add(s):
     if 'allItems' not in session:
         session['allItems'] = []
     if s not in session['items']:
-        session['items'].append(s)
         item = Item.query.filter(Item.name == s1).first()
         if item == None:
             db_session.add(Item(s1))
         elif s not in session['allItems']:
             item.occurrences += 1
+            addConnections(s1)
             session['allItems'].append(s)
+        session['items'].append(s)
         db_session.commit()
 
 def remove(s):
