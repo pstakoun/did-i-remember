@@ -28,7 +28,7 @@
             </div>
             <div class="row">
                 <div class="list-group text-center" id="items">
-                    {% if session["items"] is defined %}
+                    {% if session["items"] is defined and session["items"]|length > 0 %}
                         {% for item in session["items"] %}
                             <div class="list-group-item">
                                 <span class="item">{{ item }}</span>

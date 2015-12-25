@@ -7,12 +7,11 @@ from app import items
 def index():
     return render_template('index.html')
 
-@app.route('/add/<item>')
+@app.route('/add/<path:item>')
 def addItem(item):
-    items.add(item)
-    return item
+    return item if items.add(item) else ""
 
-@app.route('/remove/<item>')
+@app.route('/remove/<path:item>')
 def removeItem(item):
     items.remove(item)
     return item

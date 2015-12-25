@@ -1,10 +1,13 @@
 function addItem(item) {
-    $.get("/add/"+item);
-    $("#items").append('<div class="list-group-item"><span class="item">'+item+'</span><input type="checkbox"><button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button></div>');
+    $.get("/add/"+encodeURIComponent(item), function(data) {
+        if (data) {
+            $("#items").append('<div class="list-group-item"><span class="item">'+item+'</span><input type="checkbox"><button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button></div>');
+        }
+    });
 }
 
 function deleteItem(item) {
-    $.get("/remove/"+item.find(".item").text());
+    $.get("/remove/"+encodeURIComponent(item.find(".item").text()));
     item.remove();
 }
 
