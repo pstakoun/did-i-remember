@@ -23,7 +23,3 @@ def suggestions():
 def removeSuggestion(item):
     items.removeSuggestion(item)
     return ''
-
-@app.route('/debug')
-def debug():
-    return str(session)[1:-1]
