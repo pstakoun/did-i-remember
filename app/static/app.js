@@ -2,12 +2,15 @@ function addItem(item) {
     $.get("/add/"+encodeURIComponent(item), function(data) {
         if (data) {
             $("#items").append('<div class="list-group-item"><span class="item">'+item+'</span><input type="checkbox"><button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button></div>');
+            getSuggestions();
         }
     });
 }
 
 function removeItem(item) {
-    $.get("/remove/"+encodeURIComponent(item.find(".item").text()));
+    $.get("/remove/"+encodeURIComponent(item.find(".item").text()), function(data) {
+        getSuggestions();
+    });
     item.remove();
 }
 
@@ -24,22 +27,21 @@ function getSuggestions() {
 }
 
 function removeSuggestion(item) {
-    $.get("/removesuggestion/"+encodeURIComponent(item.find(".item").text()));
+    $.get("/removesuggestion/"+encodeURIComponent(item.find(".item").text()), function(data) {
+        getSuggestions();
+    });
     item.remove();
 }
 
 $("#addItemButton").click(function(e) {
     e.preventDefault();
     addItem($("#itemInput").val());
-    //getSuggestions(); TODO
 });
 
 $("#items").on("click", ".btn-delete", function(e) {
     removeItem($(this).parent());
-    //getSuggestions(); TODO
 });
 
 $("#suggestions").on("click", ".btn-delete", function(e) {
     removeSuggestion($(this).parent());
-    //getSuggestions(); TODO
 });

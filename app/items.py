@@ -1,6 +1,6 @@
-def stripSpecial(s):
+def standardize(s):
     chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-    return ''.join([c if c in chars else '' for c in s])
+    return ''.join([c if c in chars else '' for c in s.upper()])
 
 from flask import session
 from sqlalchemy import and_
@@ -9,7 +9,7 @@ from app.models import Item, ItemConnection
 
 def addConnections(item):
     for i in session['items']:
-        s = stripSpecial(i.upper())
+        s = standardize(i)
         conn1 = ItemConnection.query.filter(and_(ItemConnection.item1 == item, ItemConnection.item2 == s)).first()
         conn2 = ItemConnection.query.filter(and_(ItemConnection.item1 == s, ItemConnection.item2 == item)).first()
         if conn1 == None:
@@ -25,7 +25,7 @@ def addConnections(item):
         db_session.commit()
 
 def add(s):
-    s1 = stripSpecial(s.upper())
+    s1 = standardize(s)
     if 'items' not in session:
         session['items'] = []
     if 'allItems' not in session:
@@ -53,19 +53,26 @@ def updateSuggestions():
     items = {}
     if 'items' not in session:
         session['items'] = []
+    if 'removedSuggestions' not in session:
+        session['removedSuggestions'] = []
     for i in session['items']:
-        s = stripSpecial(i.upper())
-        conn = ItemConnection.query.filter(and_(ItemConnection.item1 == s, ~ItemConnection.item2.in_([stripSpecial(x.upper()) for x in session['items']]))).all()
+        s = standardize(i)
+        conn = ItemConnection.query.filter(and_(ItemConnection.item1 == s, ~ItemConnection.item2.in_([standardize(x) for x in session['items']]))).all()
         for c in conn:
+            if c.item2 in session['removedSuggestions']:
+                continue
             if c.item2 not in items:
                 items[c.item2] = c.occurrences
             else:
                 items[c.item2] += c.occurrences
-    session['suggestions'] = sorted(items)[:min(len(items), 5)]
+    session['suggestions'] = sorted(items, key=items.get)[:min(len(items), 5)]
 
 def getSuggestions():
     updateSuggestions()
     return ','.join(session['suggestions'])
 
 def removeSuggestion(s):
-    pass
+    if 'removedSuggestions' not in session:
+        session['removedSuggestions'] = []
+    if s not in session['removedSuggestions']:
+        session['removedSuggestions'].append(standardize(s))
