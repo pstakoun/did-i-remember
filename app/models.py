@@ -8,21 +8,22 @@ class Item(Base):
 
     def __init__(self, name):
         self.name = name
-        self.occurrences = 1
+        self.occurrences = 0
 
     def __repr__(self):
-        return '<Item '+str(self.id)+' '+self.name+' '+str(self.occurrences)+'>'
+        return '<Item:'+self.name+'x'+str(self.occurrences)+'>'
 
 class ItemConnection(Base):
     __tablename__ = 'itemconnections'
-    item1 = Column(String(64), primary_key=True)
+    id = Column(Integer, primary_key=True)
+    item1 = Column(String(64))
     item2 = Column(String(64))
     occurrences = Column(Integer)
 
-    def __init__(self, id1, id2):
+    def __init__(self, item1, item2):
         self.item1 = item1
         self.item2 = item2
-        self.occurrences = 1
+        self.occurrences = 0
 
     def __repr__(self):
-        return '<ItemConnection '+str(self.item1)+' '+str(self.item2)+' '+str(self.occurrences)+'>'
+        return '<ItemConnection:'+self.item1+'<->'+self.item2+'x'+str(self.occurrences)+'>'

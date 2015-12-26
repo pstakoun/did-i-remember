@@ -1,6 +1,5 @@
 from flask import render_template
-from app import app
-from app import items
+from app import app, items
 
 @app.route('/')
 @app.route('/index')
@@ -9,9 +8,18 @@ def index():
 
 @app.route('/add/<path:item>')
 def addItem(item):
-    return item if items.add(item) else ""
+    return items.add(item)
 
 @app.route('/remove/<path:item>')
 def removeItem(item):
     items.remove(item)
-    return item
+    return ''
+
+@app.route('/suggestions')
+def suggestions():
+    return items.getSuggestions()
+
+@app.route('/removesuggestion/<path:item>')
+def removeSuggestion(item):
+    items.removeSuggestion(item)
+    return ''
