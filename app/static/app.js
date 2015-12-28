@@ -20,7 +20,7 @@ function getSuggestions() {
         arr = data.split(',');
         for (var i = 0; i < arr.length; i++) {
             if (arr[i]) {
-                $("#suggestions").prepend('<div class="list-group-item"><span class="item">'+arr[i]+'</span><input type="checkbox"><button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button></div>');
+                $("#suggestions").append('<div class="list-group-item"><span class="item">'+arr[i]+'</span><input type="checkbox"><button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button></div>');
             }
         }
     });

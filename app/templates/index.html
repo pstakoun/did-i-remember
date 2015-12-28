@@ -50,7 +50,7 @@
             <div class="row">
                 <div class="list-group text-center" id="items">
                     {% if "items" in session %}
-                        {% for item in session["items"] %}
+                        {% for item in session["items"]|reverse %}
                             <div class="list-group-item">
                                 <span class="item">{{ item }}</span>
                                 <input type="checkbox">

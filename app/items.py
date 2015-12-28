@@ -85,7 +85,7 @@ def updateSuggestions():
                 items[c.item2] = c.occurrences
             else:
                 items[c.item2] += c.occurrences
-    session['suggestions'] = [getSpelling(s) for s in sorted(items, key=items.get)[:min(len(items), 5)]]
+    session['suggestions'] = [getSpelling(s) for s in list(reversed(sorted(items, key=items.get)))[:min(len(items), 5)]]
 
 def getSuggestions():
     updateSuggestions()
