@@ -27,3 +27,18 @@ class ItemConnection(Base):
 
     def __repr__(self):
         return '<ItemConnection:'+self.item1+'<->'+self.item2+'x'+str(self.occurrences)+'>'
+
+class ItemSpelling(Base):
+    __tablename__ = 'itemspellings'
+    id = Column(Integer, primary_key=True)
+    item = Column(String(64))
+    spelling = Column(String(64))
+    occurrences = Column(Integer)
+
+    def __init__(self, item, spelling):
+        self.item = item
+        self.spelling = spelling
+        self.occurrences = 0
+
+    def __repr__(self):
+        return '<ItemSpelling:'+self.item+'<->"'+self.spelling+'"x'+str(self.occurrences)+'>'

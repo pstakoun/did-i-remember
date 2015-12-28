@@ -1,7 +1,7 @@
 function addItem(item) {
     $.get("/add/"+encodeURIComponent(item), function(data) {
         if (data) {
-            $("#items").append('<div class="list-group-item"><span class="item">'+item+'</span><input type="checkbox"><button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button></div>');
+            $("#items").prepend('<div class="list-group-item"><span class="item">'+item+'</span><input type="checkbox"><button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button></div>');
             getSuggestions();
         }
     });
@@ -20,7 +20,7 @@ function getSuggestions() {
         arr = data.split(',');
         for (var i = 0; i < arr.length; i++) {
             if (arr[i]) {
-                $("#suggestions").append('<div class="list-group-item"><span class="item">'+arr[i]+'</span><input type="checkbox"><button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button></div>');
+                $("#suggestions").prepend('<div class="list-group-item"><span class="item">'+arr[i]+'</span><input type="checkbox"><button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button></div>');
             }
         }
     });

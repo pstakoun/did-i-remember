@@ -5,7 +5,16 @@ def standardize(s):
 from flask import session
 from sqlalchemy import and_
 from app.database import db_session
-from app.models import Item, ItemConnection
+from app.models import Item, ItemConnection, ItemSpelling
+
+def addSpelling(item, spelling):
+    itemSpelling = ItemSpelling.query.filter(and_(ItemSpelling.item == item, ItemSpelling.spelling == spelling)).first()
+    if itemSpelling == None:
+        db_session.add(ItemSpelling(item, spelling))
+        db_session.commit()
+        itemSpelling = ItemSpelling.query.filter(and_(ItemSpelling.item == item, ItemSpelling.spelling == spelling)).first()
+    itemSpelling.occurrences += 1
+    db_session.commit()
 
 def addConnections(item):
     for i in session['items']:
@@ -30,7 +39,7 @@ def add(s):
         session['items'] = []
     if 'allItems' not in session:
         session['allItems'] = []
-    if s not in session['items'] and s1:
+    if s1 not in [standardize(x) for x in session['items']] and s1:
         item = Item.query.filter(Item.name == s1).first()
         if item == None:
             db_session.add(Item(s1))
@@ -39,6 +48,7 @@ def add(s):
         if s not in session['allItems']:
             item.occurrences += 1
             db_session.commit()
+            addSpelling(s1, s)
             addConnections(s1)
             session['allItems'].append(s)
         session['items'].append(s)
@@ -49,6 +59,16 @@ def remove(s):
     if s in session['items']:
         session['items'].remove(s)
 
+def getSpelling(s):
+    spellings = ItemSpelling.query.filter(ItemSpelling.item == s).all()
+    best = s
+    bestOcc = 0
+    for spell in spellings:
+        if spell.occurrences > bestOcc:
+            best = spell.spelling
+            bestOcc = spell.occurrences
+    return best
+
 def updateSuggestions():
     items = {}
     if 'items' not in session:
@@ -57,15 +77,15 @@ def updateSuggestions():
         session['removedSuggestions'] = []
     for i in session['items']:
         s = standardize(i)
-        conn = ItemConnection.query.filter(and_(ItemConnection.item1 == s, ~ItemConnection.item2.in_([standardize(x) for x in session['items']]))).all()
-        for c in conn:
+        conns = ItemConnection.query.filter(and_(ItemConnection.item1 == s, ~ItemConnection.item2.in_([standardize(x) for x in session['items']]))).all()
+        for c in conns:
             if c.item2 in session['removedSuggestions']:
                 continue
             if c.item2 not in items:
                 items[c.item2] = c.occurrences
             else:
                 items[c.item2] += c.occurrences
-    session['suggestions'] = sorted(items, key=items.get)[:min(len(items), 5)]
+    session['suggestions'] = [getSpelling(s) for s in sorted(items, key=items.get)[:min(len(items), 5)]]
 
 def getSuggestions():
     updateSuggestions()
