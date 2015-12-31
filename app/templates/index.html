@@ -9,10 +9,7 @@
             .container {
                 margin-top: 32px;
             }
-            #itemInput {
-                border-style: none;
-            }
-            .btn-default {
+            .no-border {
                 border-style: none;
             }
             .list-group-item {
@@ -26,10 +23,13 @@
     <body>
         <div class="container">
             <div class="row">
+                <button class="btn btn-default" id="clearItemButton">Clear</button>
+            </div>
+            <div class="row">
                 <form class="form-inline text-center">
                     <label for="itemInput">Did I Remember </label>
-                    <input type="text" class="form-control" id="itemInput">
-                    <button class="btn btn-default" id="addItemButton">?</button>
+                    <input type="text" class="form-control no-border" id="itemInput">
+                    <button class="btn btn-default no-border" id="addItemButton">?</button>
                 </form>
             </div>
             <div class="row">
@@ -39,7 +39,7 @@
                             <div class="list-group-item">
                                 <span class="item">{{ item }}</span>
                                 <input type="checkbox">
-                                <button class="btn btn-default btn-delete">
+                                <button class="btn btn-default btn-delete no-border">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </button>
                             </div>
@@ -54,7 +54,7 @@
                             <div class="list-group-item">
                                 <span class="item">{{ item }}</span>
                                 <input type="checkbox">
-                                <button class="btn btn-default btn-delete">
+                                <button class="btn btn-default btn-delete no-border">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </button>
                             </div>

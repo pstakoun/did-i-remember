@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, session
 from app import app, items
 
 @app.route('/')
@@ -22,4 +22,9 @@ def suggestions():
 @app.route('/removesuggestion/<path:item>')
 def removeSuggestion(item):
     items.removeSuggestion(item)
+    return ''
+
+@app.route('/clear')
+def clear():
+    session.clear()
     return ''

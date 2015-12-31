@@ -1,7 +1,14 @@
+function clearItem() {
+    $.get("/clear", function(data) {
+        $("#items").html("");
+        getSuggestions();
+    });
+}
+
 function addItem(item) {
     $.get("/add/"+encodeURIComponent(item), function(data) {
         if (data) {
-            $("#items").prepend('<div class="list-group-item"><span class="item">'+item+'</span><input type="checkbox"><button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button></div>');
+            $("#items").prepend('<div class="list-group-item"><span class="item">'+item+'</span><input type="checkbox"><button class="btn btn-default btn-delete no-border"><span class="glyphicon glyphicon-trash"></span></button></div>');
             getSuggestions();
         }
     });
@@ -20,7 +27,7 @@ function getSuggestions() {
         arr = data.split(',');
         for (var i = 0; i < arr.length; i++) {
             if (arr[i]) {
-                $("#suggestions").append('<div class="list-group-item"><span class="item">'+arr[i]+'</span><input type="checkbox"><button class="btn btn-default btn-delete"><span class="glyphicon glyphicon-trash"></span></button></div>');
+                $("#suggestions").append('<div class="list-group-item"><span class="item">'+arr[i]+'</span><input type="checkbox"><button class="btn btn-default btn-delete no-border"><span class="glyphicon glyphicon-trash"></span></button></div>');
             }
         }
     });
@@ -32,6 +39,11 @@ function removeSuggestion(item) {
     });
     item.remove();
 }
+
+$("#clearItemButton").click(function(e) {
+    e.preventDefault();
+    clearItem();
+});
 
 $("#addItemButton").click(function(e) {
     e.preventDefault();
